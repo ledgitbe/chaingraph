@@ -37,6 +37,16 @@ disabled (managed externally)
 {{ else -}}
   Bitcoin Cash Node (chipnet):  disabled
 {{ end }}
+{{ if .Values.bitcoinSVNode.enable -}}
+  Bitcoin SV Node (mainnet):  enabled (requested volume size: {{ .Values.bitcoinSVNode.volumeSize }}, image: {{ .Values.bitcoinSVNode.image | default .Values.bitcoinSVNode.image }})
+{{ else -}}
+  Bitcoin SV Node (mainnet):  disabled
+{{ end }}
+{{ if .Values.bitcoinSVNodeTestnet.enable -}}
+  Bitcoin SV Node (testnet):  enabled (requested volume size: {{ .Values.bitcoinSVNodeTestnet.volumeSize }}, image: {{ .Values.bitcoinSVNodeTestnet.image | default .Values.bitcoinSVNodeTestnet.image }})
+{{ else -}}
+  Bitcoin SV Node (testnet):  disabled
+{{ end }}
 {{- if .Values.postgres.externalDbUrl }}
 --- External Postgres Database ---
 Chaingraph has been configured to use an externally-managed postgres database:

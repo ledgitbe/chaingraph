@@ -1,0 +1,50 @@
+{{- if .Values.bitcoinSVNode.enable }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: bitcoin-sv-node
+  labels:
+    app: bitcoin-sv-node
+    {{- include "chaingraph.labels" . | nindent 4 }}
+spec:
+  serviceName: bitcoin-sv-node-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bitcoin-sv-node
+      {{- include "chaingraph.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: bitcoin-sv-node
+        {{- include "chaingraph.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - name: bitcoin-sv-node
+        image: {{ .Values.bitcoinSVNode.image }}
+        command: ["bitcoind"]
+        args: ["-minminingtxfee=0", "-maxstackmemoryusageconsensus=1000000000", "-excessiveblocksize=100000000"]
+        env:
+        - name: APPEND_TO_BITCOIN_CONF
+          value: "disablewallet=1\nwhitelist=0.0.0.0/0\nminminingtxfee=0\nexcessiveblocksize=2000000000\nmaxstackmemoryusageconsensus=2000000000\n"
+        ports:
+          - containerPort: 8333
+            name: mainnet-p2p
+        volumeMounts:
+          - name: bitcoin-sv-node-volume
+            mountPath: /data
+            {{- if not .Values.useDevelopmentVolumes }} # https://github.com/rancher/k3d/issues/765
+            subPath: bitcoin-sv-node
+            {{ end }}
+  volumeClaimTemplates:
+  - metadata:
+      name: bitcoin-sv-node-volume
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: {{ .Values.bitcoinSVNode.volumeSize }}
+      {{- if .Values.useDevelopmentVolumes }}
+      volumeName: bitcoin-sv-node-volume
+      {{- end }}
+{{- end }}

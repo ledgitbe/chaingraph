@@ -55,6 +55,44 @@ spec:
   hostPath:
     path: "/data/bitcoin-cash-node-chipnet"
 {{- end }}
+{{- if .Values.bitcoinSVNode.enable }}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: bitcoin-sv-node-volume
+  labels:
+    type: local
+    developmentVolume: bitcoin-sv-node
+spec:
+  storageClassName: local-path
+  persistentVolumeReclaimPolicy: Retain
+  capacity:
+    storage: {{ .Values.bitcoinSVNode.volumeSize }}
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/data/bitcoin-sv-node"
+{{- end }}
+{{- if .Values.bitcoinSVNodeTestnet.enable }}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: bitcoin-sv-node-testnet-volume
+  labels:
+    type: local
+    developmentVolume: bitcoin-sv-node-testnet
+spec:
+  storageClassName: local-path
+  persistentVolumeReclaimPolicy: Retain
+  capacity:
+    storage: {{ .Values.bitcoinSVNodeTestnet.volumeSize }}
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/data/bitcoin-sv-node-testnet"
+{{- end }}
 {{- if .Values.agent.enable }}
 ---
 apiVersion: v1

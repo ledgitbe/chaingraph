@@ -60,5 +60,11 @@ ALTER SYSTEM SET max_parallel_maintenance_workers = '{{ max 1 (div .Values.postg
   {{- if .Values.bitcoinCashNodeChipnet.enable -}}
     {{- $trustedNodes = append $trustedNodes (print "bchn-chipnet:bitcoin-cash-node-chipnet-service." .Release.Namespace ".svc.cluster.local:48333:chipnet") -}}
   {{- end -}}
+  {{- if .Values.bitcoinSVNode.enable -}}
+    {{- $trustedNodes = append $trustedNodes (print "bsvn-mainnet:bitcoin-sv-node-service." .Release.Namespace ".svc.cluster.local:8333:mainnet") -}}
+  {{- end -}}
+  {{- if .Values.bitcoinSVNodeTestnet.enable -}}
+    {{- $trustedNodes = append $trustedNodes (print "bsvn-testnet:bitcoin-sv-node-testnet-service." .Release.Namespace ".svc.cluster.local:18333:chipnet") -}}
+  {{- end -}}
   {{- $trustedNodes | join "," | trimPrefix "PLACEHOLDER," -}}
 {{- end }}

@@ -1,0 +1,16 @@
+{{- if .Values.bitcoinSVNodeTestnet.enable }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: bitcoin-sv-node-testnet-service
+  labels:
+    app: bitcoin-sv-node-testnet
+    {{- include "chaingraph.labels" . | nindent 4 }}
+spec:
+  ports:
+    - name: testnet-p2p
+      port: 18333
+  type: ClusterIP
+  selector:
+    app: bitcoin-sv-node-testnet
+{{- end }}

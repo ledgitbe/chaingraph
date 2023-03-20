@@ -1,5 +1,6 @@
 import { binToHex } from '@bitauth/libauth';
 import type { BitcoreBlockHeader } from '@chaingraph/bitcore-p2p-cash';
+import type { BitcoreBlockHeader as SVBlockHeader } from 'bitcore-p2p-bsv';
 import type pino from 'pino';
 
 import type { InitialSyncState } from './sync-state.js';
@@ -175,7 +176,10 @@ export class BlockTree {
    * @param headers - the array of headers from a `headers` message
    */
   // eslint-disable-next-line complexity
-  updateHeaders(nodeName: string, headers: BitcoreBlockHeader[]) {
+  updateHeaders(
+    nodeName: string,
+    headers: BitcoreBlockHeader[] | SVBlockHeader[]
+  ) {
     const chain = this.getHashChain(nodeName);
     if (headers.length === 0) {
       this.logger.debug(

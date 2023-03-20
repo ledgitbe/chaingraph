@@ -165,6 +165,7 @@
   "dependencies": {
     "@bitauth/libauth": "^2.0.0-alpha.8",
     "@chaingraph/bitcore-p2p-cash": "^9.0.4",
+    "bitcore-p2p-bsv": "git+https://github.com/ledgitbe/bitcore-p2p-bsv",
     "dotenv": "^16.0.3",
     "lru-cache": "^7.14.1",
     "pg": "^8.8.0",

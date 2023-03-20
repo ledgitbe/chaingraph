@@ -15,6 +15,20 @@
       "console": "integratedTerminal",
       "skipFiles": ["<node_internals>/**/*.js"]
     },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Chaingraph BSV",
+      "program": "${workspaceFolder}/bin/chaingraph-bsv.js",
+      "outputCapture": "std",
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "CHAINGRAPH_USER_AGENT": "/chaingraph:vscode-debug/",
+        "CHAINGRAPH_LOG_LEVEL_STDOUT": "trace"
+      },
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**/*.js"]
+    },
     // To debug, make sure a *.spec.ts file is active in the editor, then run a configuration
     {
       "type": "node",
